@@ -1,0 +1,53 @@
+Database Collections
+
+users:
+    userId (string)
+
+    tasks:
+        taskId (string)
+        title (string)
+        description (string)
+        notes (string)
+        url (string)
+        taskDate (string)
+        dueDate (timestamp)
+        isCompleted (boolean)
+        categoryId (string)
+        userId (string)
+
+    categories:
+        categoryId (string)
+        name (string)
+        color (string)
+        icon (string)
+        userId (string)
+
+-----------------------------------------------------------------------------------------------
+    {
+      users: {
+        userId_abc123: {
+            tasks: {
+                taskId_xyz: {
+                    title: "Study Android"
+                    description: "Follow the week plan"
+                    notes: "Check Firebase docs"
+                    url: "https://developer.android.com"
+                    taskDate: "2025-05-26"
+                    dueDate: <timestamp>
+                    isCompleted: false
+                    categoryId: "category_1"
+                    userId: "userId_abc123"
+                }
+            },
+            categories: {
+                categoryId_1: {
+                    name: "Personal"
+                    color: "#FFAA00"
+                    icon: "📝"
+                    userId: "userId_abc123"
+                }
+            }
+          }
+        }
+      }
+    }
