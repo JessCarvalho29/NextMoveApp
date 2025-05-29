@@ -9,10 +9,14 @@ users:
         description (string)
         notes (string)
         url (string)
+        priority (string: High, Medium, Low)
+        repeat (string: None, Daily, Weekly, Monthly, Yearly)
         taskDate (string)
         dueDate (timestamp)
         isCompleted (boolean)
+        isArchived (boolean)
         categoryId (string)
+        listId (string)
         userId (string)
 
     categories:
@@ -22,31 +26,54 @@ users:
         icon (string)
         userId (string)
 
+    lists:
+        listId (string)
+        name (string)
+        color (string)
+        icon (string)
+        userId (string)
+        categoryId (string)
+        createdAt (timestamp)
+
 -----------------------------------------------------------------------------------------------
     {
-      users: {
-        userId_abc123: {
-            tasks: {
-                taskId_xyz: {
-                    title: "Study Android"
-                    description: "Follow the week plan"
-                    notes: "Check Firebase docs"
-                    url: "https://developer.android.com"
-                    taskDate: "2025-05-26"
-                    dueDate: <timestamp>
-                    isCompleted: false
-                    categoryId: "category_1"
-                    userId: "userId_abc123"
+      "users": {
+        "userId_abc123": {
+            "tasks": {
+                "taskId_xyz": {
+                    "title": "Study Android"
+                    "description": "Follow the week plan"
+                    "notes": "Anything"
+                    "url": "https://developer.android.com"
+                    "priority": "High"
+                    "repeat": "weekly"
+                    "taskDate": "2025-05-26"
+                    "dueDate": <timestamp>
+                    "isCompleted": false
+                    "isArchived": false
+                    "categoryId": "category_1"
+                    "listId": "listId_1"
+                    "userId": "userId_abc123"
                 }
             },
-            categories: {
-                categoryId_1: {
-                    name: "Personal"
-                    color: "#FFAA00"
-                    icon: "📝"
-                    userId: "userId_abc123"
+            "categories": {
+                "categoryId_1": {
+                    "name": "Personal"
+                    "color": "#FFAA00"
+                    "icon": "📝"
+                    "userId": "userId_abc123"
                 }
-            }
+            },
+            "lists": {
+                "list_abc": {
+                      "name": "Java Quiz for Tomorrow",
+                      "color": "#F44336",
+                      "icon": "📘",
+                      "userId": "userId_abc123",
+                      "createdAt": "<timestamp>",
+                      "categoryId": "category_1"
+                }
+              }
           }
         }
       }
