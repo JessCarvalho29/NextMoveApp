@@ -16,7 +16,6 @@ users:
         isCompleted (boolean)
         isArchived (boolean)
         categoryId (string)
-        listId (string)
         userId (string)
 
     categories:
@@ -25,15 +24,6 @@ users:
         color (string)
         icon (string)
         userId (string)
-
-    lists:
-        listId (string)
-        name (string)
-        color (string)
-        icon (string)
-        userId (string)
-        categoryId (string)
-        createdAt (timestamp)
 
 -----------------------------------------------------------------------------------------------
     {
@@ -52,7 +42,6 @@ users:
                     "isCompleted": false
                     "isArchived": false
                     "categoryId": "category_1"
-                    "listId": "listId_1"
                     "userId": "userId_abc123"
                 }
             },
@@ -63,17 +52,7 @@ users:
                     "icon": "📝"
                     "userId": "userId_abc123"
                 }
-            },
-            "lists": {
-                "list_abc": {
-                      "name": "Java Quiz for Tomorrow",
-                      "color": "#F44336",
-                      "icon": "📘",
-                      "userId": "userId_abc123",
-                      "createdAt": "<timestamp>",
-                      "categoryId": "category_1"
-                }
-              }
+            }
           }
         }
       }
