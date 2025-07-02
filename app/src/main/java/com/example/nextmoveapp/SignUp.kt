@@ -58,26 +58,37 @@ class SignUp : AppCompatActivity() {
                 "password" to password,
             )
 
-            try {
-                reachUserCredential.set(userCredential)
+            reachUserCredential.get()
+                .addOnSuccessListener { extractedData ->
+                    if (extractedData.exists() && extractedData.getString("username") == username) {
+                        Toast.makeText(
+                            this,
+                            "Username already exists. Please choose another or log in.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } }
+                .addOnFailureListener {
+                    try {
+                        reachUserCredential.set(userCredential)
 
-                Log.d(currentPage, "User successfully added to Firestore")
-                Toast.makeText(
-                    this,
-                    "Account created successfully!",
-                    Toast.LENGTH_SHORT
-                ).show()
+                        Log.d(currentPage, "User successfully added to Firestore")
+                        Toast.makeText(
+                            this,
+                            "Account created successfully!",
+                            Toast.LENGTH_SHORT
+                        ).show()
 
-                val intent = Intent(this, UserLogin::class.java)
-                startActivity(intent)
-            } catch (e: Exception) {
-                Log.w(currentPage, "Failed to save to Firestore", e)
-                Toast.makeText(
-                    this,
-                    "Error creating account. Try again!",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
+                        val intent = Intent(this, UserLogin::class.java)
+                        startActivity(intent)
+                    } catch (e: Exception) {
+                        Log.w(currentPage, "Failed to save to Firestore", e)
+                        Toast.makeText(
+                            this,
+                            "Error creating account. Try again!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
         }
 
         binding.btnBackFromSignUp.setOnClickListener {

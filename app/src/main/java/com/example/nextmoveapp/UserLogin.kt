@@ -42,6 +42,7 @@ class UserLogin : AppCompatActivity() {
                 return@setOnClickListener
             }
 
+
             reachUserCredentialCollection.get()
                 .addOnSuccessListener {
                         extractedData ->
