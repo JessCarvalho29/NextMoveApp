@@ -70,24 +70,35 @@ class SecondSignUp : AppCompatActivity() {
                 "password" to password
             )
 
-            try {
-                reachUserCredential.set(userCredentials)
-                Toast.makeText(
-                    this,
-                    "Account created successfully!",
-                    Toast.LENGTH_SHORT
-                ).show()
-                Log.d(currentPage, "User successfully added!")
-                val intent = Intent(this, SecondUserLogin::class.java)
-                startActivity(intent)
-            } catch (e: Exception) {
-                Toast.makeText(
-                    this,
-                    "Error creating account. Try again!",
-                    Toast.LENGTH_SHORT
-                ).show()
-                Log.w(currentPage, "Data was not sent to Firebase", e)
-            }
+            reachUserCredential.get()
+                .addOnSuccessListener { extractedData ->
+                    if (extractedData.exists() && extractedData.getString("username") == email) {
+                        Toast.makeText(
+                            this,
+                            "Email already exists. Please choose another or log in.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } }
+                .addOnFailureListener {
+                    try {
+                        reachUserCredential.set(userCredentials)
+                        Toast.makeText(
+                            this,
+                            "Account created successfully!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        Log.d(currentPage, "User successfully added to Firestore!")
+                        val intent = Intent(this, SecondUserLogin::class.java)
+                        startActivity(intent)
+                    } catch (e: Exception) {
+                        Toast.makeText(
+                            this,
+                            "Error creating account. Try again!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        Log.w(currentPage, "Data was not sent to Firebase", e)
+                    }
+                }
         }
 
         binding.btnBackSignUp2.setOnClickListener {
