@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "701430066780",
+    "project_id": "nextmoveapp",
+    "storage_bucket": "nextmoveapp.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:701430066780:android:2c2ce3282963dffeec0099",
+        "android_client_info": {
+          "package_name": "com.example.nextmoveapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBLBPN054C-zqQ5Et34-GMZiZ81jVwy9hM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

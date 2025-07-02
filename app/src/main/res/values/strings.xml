@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">NextMoveApp</string>
+    <string name="appName">Next Move App!</string>
+    <string name="signUpText">Sign Up</string>
+    <string name="logInText">Log In</string>
+    <string name="signUp2Text">Sign Up 2</string>
+    <string name="logIn2Text">Log In 2</string>
+    <string name="updatesText">Updates</string>
+    <string name="enterPasswordText">Enter your Password</string>
+    <string name="enterUsernameText">Enter your Username</string>
+    <string name="confirmPasswordText">Confirm your Password</string>
+    <string name="backText">Back</string>
+    <string name="welcomeText">Welcome</string>
 </resources>
