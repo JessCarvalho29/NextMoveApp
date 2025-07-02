@@ -63,7 +63,7 @@ class UserLogin : AppCompatActivity() {
                 .addOnFailureListener { error -> Log.e(currentPage, "Error to extract data from firebase", error) }
         }
 
-        binding.btnLogIntoAccount.setOnClickListener {
+        binding.btnBackFromLogIn.setOnClickListener {
             finish()
         }
 
