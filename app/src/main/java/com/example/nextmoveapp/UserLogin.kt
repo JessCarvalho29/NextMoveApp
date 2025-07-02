@@ -31,6 +31,17 @@ class UserLogin : AppCompatActivity() {
             val username = binding.usernameInputLogin.text.toString()
             val password = binding.passwordInputLogin.text.toString()
 
+            if (username.isBlank()) {
+                Log.d(currentPage, "Username is blank")
+                Toast.makeText(this, "Username cannot be empty.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            if (password.isBlank()) {
+                Log.d(currentPage, "Password is blank")
+                Toast.makeText(this, "Password cannot be empty.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
             reachUserCredentialCollection.document(username).get()
                 .addOnSuccessListener {
                         extractedData ->
