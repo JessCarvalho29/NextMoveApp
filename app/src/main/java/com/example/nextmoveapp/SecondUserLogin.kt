@@ -24,28 +24,33 @@ class SecondUserLogin : AppCompatActivity() {
         binding = ActivitySecondUserLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val db = Firebase.firestore
-        val userCredentialsCollection = db.collection("userCredentials")
+        val firebase = Firebase.firestore
 
         binding.btnLogin2.setOnClickListener {
-            val email = binding.emailAddressL2.text.toString().trim()
+            val email = binding.emailAddressL2.text.toString().lowercase().trim()
             val password = binding.passwordL2.text.toString()
+            val userCredentialsCollection = firebase.collection("userCredentials").document(email)
 
-            if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            if (email.isBlank()) {
+                Log.d(currentPage, "email is blank")
+                Toast.makeText(this, "Email cannot be empty.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                Log.d(currentPage, "Invalid email format")
                 Toast.makeText(this, "Invalid email format", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-
-            val passwordPattern = Regex("^(?=.*[A-Z])(?=.*[!@#\$%^&*()_+=\\[\\]{};':\"\\\\|,.<>/?]).{8,15}\$")
-            if (!passwordPattern.matches(password)) {
-                Toast.makeText(this, "Password must be 8–15 chars, 1 uppercase, 1 special char", Toast.LENGTH_SHORT).show()
+            if (password.isBlank()) {
+                Log.d(currentPage, "Password is blank")
+                Toast.makeText(this, "Password cannot be empty.", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            userCredentialsCollection.document(email).get()
-                .addOnSuccessListener { document ->
-                    if (document.exists()) {
-                        val userData = document.data
+            userCredentialsCollection.get()
+                .addOnSuccessListener { extractedData ->
+                    if (extractedData.exists()) {
+                        val userData = extractedData.data
                         val storedPassword = userData?.get("password")
 
                         if (storedPassword == password) {
@@ -54,15 +59,14 @@ class SecondUserLogin : AppCompatActivity() {
                             val intent = Intent(this, Welcome::class.java)
                             startActivity(intent)
                         } else {
-                            Toast.makeText(this, "Incorrect password", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this, "Username or password is incorrect. Try again!", Toast.LENGTH_SHORT).show()
                         }
                     } else {
-                        Toast.makeText(this, "User not found", Toast.LENGTH_SHORT).show()
                         Log.w(currentPage, "No such user: $email")
                     }
                 }
                 .addOnFailureListener { error ->
-                    Toast.makeText(this, "Login failed. Try again.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Username or password is incorrect. Try again!", Toast.LENGTH_SHORT).show()
                     Log.e(currentPage, "Firebase error", error)
                 }
         }

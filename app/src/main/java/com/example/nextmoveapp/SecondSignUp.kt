@@ -1,5 +1,6 @@
 package com.example.nextmoveapp
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.util.Patterns
@@ -25,25 +26,37 @@ class SecondSignUp : AppCompatActivity() {
         binding = ActivitySecondSignUpBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.btnBackSignUp2.setOnClickListener {
-            finish()
-        }
+        val firebase = Firebase.firestore
 
         binding.btn2SignUp.setOnClickListener {
-            val email = binding.emailAddress.text.toString().trim()
+            val email = binding.emailAddress.text.toString().lowercase().trim()
             val password = binding.passwordSU2.text.toString()
             val confirmPassword = binding.confirmPasswordSU2.text.toString()
+            val reachUserCredential = firebase.collection("userCredentials").document(email)
 
-            if (email.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            if (email.isBlank() || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                Log.d(currentPage, "Invalid email")
                 Toast.makeText(this, "Invalid email", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            if (password.isBlank()) {
+                Log.d(currentPage, "Password is blank")
+                Toast.makeText(this, "Password cannot be empty.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            if (confirmPassword.isBlank()) {
+                Log.d(currentPage, "Passwords do not match")
+                Toast.makeText(this, "Confirm password cannot be empty.", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
             val passwordPattern = Regex("^(?=.*[A-Z])(?=.*[!@#\$%^&*()_+=\\[\\]{};':\"\\\\|,.<>/?]).{8,15}\$")
 
             if (!passwordPattern.matches(password)) {
-                Toast.makeText(this, "Password must be 8–15 characters,\n" +
-                        "1 uppercase and 1 special character", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this, "Password must be 8–15 characters,\n" +
+                            "1 uppercase and 1 special character", Toast.LENGTH_SHORT
+                ).show()
                 return@setOnClickListener
             }
 
@@ -52,27 +65,40 @@ class SecondSignUp : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            val db = Firebase.firestore
             val userCredentials = hashMapOf(
-                "email" to email,
+                "username" to email,
                 "password" to password
             )
 
-            db.collection("userCredentials").document(email).set(userCredentials)
-                .addOnSuccessListener {
-                    Toast.makeText(this, "Account created successfully!", Toast.LENGTH_SHORT).show()
-                    Log.d(currentPage, "User successfully added!")
-                }
-                .addOnFailureListener { error ->
-                    Toast.makeText(this, "Error creating account. Try again!", Toast.LENGTH_SHORT).show()
-                    Log.w(currentPage, "Data was not sent to Firebase", error)
-                }
-        }
-
-            ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-                val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-                v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-                insets
+            try {
+                reachUserCredential.set(userCredentials)
+                Toast.makeText(
+                    this,
+                    "Account created successfully!",
+                    Toast.LENGTH_SHORT
+                ).show()
+                Log.d(currentPage, "User successfully added!")
+                val intent = Intent(this, SecondUserLogin::class.java)
+                startActivity(intent)
+            } catch (e: Exception) {
+                Toast.makeText(
+                    this,
+                    "Error creating account. Try again!",
+                    Toast.LENGTH_SHORT
+                ).show()
+                Log.w(currentPage, "Data was not sent to Firebase", e)
             }
         }
+
+        binding.btnBackSignUp2.setOnClickListener {
+            finish()
+        }
+
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
+
     }
+}

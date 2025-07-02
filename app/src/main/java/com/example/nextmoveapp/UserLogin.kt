@@ -25,11 +25,11 @@ class UserLogin : AppCompatActivity() {
         setContentView(binding.root)
 
         val firebase = Firebase.firestore
-        val reachUserCredentialCollection = firebase.collection("userCredentials")
 
         binding.btnLogIntoAccount.setOnClickListener {
-            val username = binding.usernameInputLogin.text.toString()
+            val username = binding.usernameInputLogin.text.toString().lowercase().trim()
             val password = binding.passwordInputLogin.text.toString()
+            val reachUserCredentialCollection = firebase.collection("userCredentials").document(username)
 
             if (username.isBlank()) {
                 Log.d(currentPage, "Username is blank")
@@ -42,25 +42,29 @@ class UserLogin : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            reachUserCredentialCollection.document(username).get()
+            reachUserCredentialCollection.get()
                 .addOnSuccessListener {
                         extractedData ->
                     if (extractedData.exists()){
                         var userCredentials = extractedData.data
                         Log.d(currentPage, "Data extracted successfully ${extractedData.id} : ${extractedData.data}")
 
-                        if (userCredentials?.get("username") == username && userCredentials["password"] == password){
+                        if (userCredentials?.get("username") == username && userCredentials["password"] == password) {
+                            Toast.makeText(this, "Login successful!", Toast.LENGTH_SHORT).show()
+                            Log.d(currentPage, "User logged in: $username")
                             val intent = Intent(this, Welcome::class.java)
                             startActivity(intent)
                         } else {
                             Toast.makeText(this, "Username or password is incorrect. Try again!", Toast.LENGTH_SHORT).show()
                         }
-                    }
-                    else {
+                    } else {
                         Log.w(currentPage, "No data to extract")
                     }
                 }
-                .addOnFailureListener { error -> Log.e(currentPage, "Error to extract data from firebase", error) }
+                .addOnFailureListener {
+                    error -> Log.e(currentPage, "Error to extract data from firebase", error)
+                    Toast.makeText(this, "Username or password is incorrect. Try again!", Toast.LENGTH_SHORT).show()
+                }
         }
 
         binding.btnBackFromLogIn.setOnClickListener {

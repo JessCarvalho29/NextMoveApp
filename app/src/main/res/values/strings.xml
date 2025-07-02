@@ -19,4 +19,5 @@
     <string name="enter_your_e_mail2">Enter your e-mail</string>
     <string name="enter_your_password">Enter your password2</string>
     <string name="enter_your_password2">Enter your password</string>
+    <string name="logOutText">Log Out</string>
 </resources>

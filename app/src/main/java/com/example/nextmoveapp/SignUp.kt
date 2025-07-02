@@ -25,16 +25,12 @@ class SignUp : AppCompatActivity() {
         setContentView(binding.root)
 
         val firebase = Firebase.firestore
-        Log.d(currentPage, "Firestore instance: $firebase")
-        val reachUserCredentialCollection = firebase.collection("userCredentials")
 
         binding.btnCreateAccount.setOnClickListener {
-            Log.d(currentPage, "Button clicked")
-            val username = binding.usernameInput.text.toString().lowercase()
+            val username = binding.usernameInput.text.toString().lowercase().trim()
             val password = binding.passwordInput.text.toString()
             val confirmPassword = binding.confirmPasswordInput.text.toString()
-
-            Log.d(currentPage, "username=$username, password=$password, confirmPassword=$confirmPassword")
+            val reachUserCredential = firebase.collection("userCredentials").document(username)
 
             if (username.isBlank()) {
                 Log.d(currentPage, "Username is blank")
@@ -52,8 +48,6 @@ class SignUp : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            Log.d(currentPage, "Passing validation, about to save in Firestore")
-
             if (password != confirmPassword) {
                 Toast.makeText(this, "Passwords do not match.", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
@@ -64,17 +58,26 @@ class SignUp : AppCompatActivity() {
                 "password" to password,
             )
 
-            reachUserCredentialCollection.document(username).set(userCredential)
-                //.addOnSuccessListener {
-                    Log.d(currentPage, "User successfully added to Firestore")
-                    Toast.makeText(this, "Account created successfully!", Toast.LENGTH_SHORT).show()
-                    val intent = Intent(this, UserLogin::class.java)
-                    startActivity(intent)
-                //}
-                //.addOnFailureListener {
-                    //error -> Log.w(currentPage, "Failed to save to Firestore", error)
-                    //Toast.makeText(this, "Error creating account. Try again!", Toast.LENGTH_SHORT).show()
-                //}
+            try {
+                reachUserCredential.set(userCredential)
+
+                Log.d(currentPage, "User successfully added to Firestore")
+                Toast.makeText(
+                    this,
+                    "Account created successfully!",
+                    Toast.LENGTH_SHORT
+                ).show()
+
+                val intent = Intent(this, UserLogin::class.java)
+                startActivity(intent)
+            } catch (e: Exception) {
+                Log.w(currentPage, "Failed to save to Firestore", e)
+                Toast.makeText(
+                    this,
+                    "Error creating account. Try again!",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         }
 
         binding.btnBackFromSignUp.setOnClickListener {
