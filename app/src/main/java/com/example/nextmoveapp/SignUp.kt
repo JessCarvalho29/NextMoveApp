@@ -38,7 +38,7 @@ class SignUp : AppCompatActivity() {
                     "password" to password
                 )
 
-                reachUserCredentialCollection.document("jess").set(userCredentials)
+                reachUserCredentialCollection.document("username").set(userCredentials)
                     .addOnSuccessListener {
                         Log.d(currentPage, "user successfully added!")
                         Toast.makeText(this, "Account created successfully!", Toast.LENGTH_SHORT).show()

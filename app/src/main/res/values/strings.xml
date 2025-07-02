@@ -11,4 +11,12 @@
     <string name="confirmPasswordText">Confirm your Password</string>
     <string name="backText">Back</string>
     <string name="welcomeText">Welcome</string>
+    <string name="sign_up_2">Sign Up 2</string>
+    <string name="log_in_2">Log In 2</string>
+    <string name="enter_your_e_mail">Enter your e-mail</string>
+    <string name="reenter_your_password">Reenter your password</string>
+    <string name="confirm_your_password">Confirm your password</string>
+    <string name="enter_your_e_mail2">Enter your e-mail</string>
+    <string name="enter_your_password">Enter your password2</string>
+    <string name="enter_your_password2">Enter your password</string>
 </resources>
