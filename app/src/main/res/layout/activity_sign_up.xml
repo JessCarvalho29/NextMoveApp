@@ -11,14 +11,15 @@
         android:id="@+id/imageView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/hello_sign_into_your_account_2"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/hello_sign_into_your_account_2" />
 
     <EditText
         android:id="@+id/usernameInput"
         android:layout_width="300dp"
-        android:layout_height="40dp"
+        android:layout_height="50dp"
         android:ems="10"
         android:hint="@string/enterUsernameText"
         android:inputType="text"
@@ -32,7 +33,7 @@
     <EditText
         android:id="@+id/confirmPasswordInput"
         android:layout_width="300dp"
-        android:layout_height="40dp"
+        android:layout_height="50dp"
         android:ems="10"
         android:hint="@string/confirmPasswordText"
         android:inputType="textPassword"
@@ -46,7 +47,7 @@
     <EditText
         android:id="@+id/passwordInput"
         android:layout_width="300dp"
-        android:layout_height="40dp"
+        android:layout_height="50dp"
         android:ems="10"
         android:hint="@string/enterPasswordText"
         android:inputType="textPassword"
