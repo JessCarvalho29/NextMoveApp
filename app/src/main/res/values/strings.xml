@@ -20,4 +20,8 @@
     <string name="enter_your_password">Enter your password2</string>
     <string name="enter_your_password2">Enter your password</string>
     <string name="logOutText">Log Out</string>
+    <string name="createYourAccountString">Create your account</string>
+    <string name="sign_in_into_your_account">Sign in into your account</string>
+    <string name="helloText">Hello</string>
+    <string name="welcomePageMessage">It\'s time to organize your day!</string>
 </resources>
